@@ -7,9 +7,14 @@ import time
 driver = webdriver.Chrome()
 
 data = []
+website = {'seek': 'https://www.seek.com.au/jobs?page=', 
+           'indeed': 'https://au.indeed.com/',
+           'bbs': 'https://brisbanebbs.com/forum.php?mod=forumdisplay&fid=14&page=',
+           }
+key_words = {'software', 'develop', 'data', 'machine', 'learning', 'artificial', 'intelligence'}
 # Parse pages
-for i in range(1, 68):
-    url = "http://www.104.com.tw/company/?jobsource=check&zone=16&page=" + str(i)
+for i in range(1, 10):
+    url = "https://brisbanebbs.com/forum.php?mod=forumdisplay&fid=14&page=" + str(i)
     driver.get(url)
 
     # Wait to load the webpage
@@ -18,7 +23,7 @@ for i in range(1, 68):
     pagesource = driver.page_source
     soup = BeautifulSoup(pagesource, 'html.parser')
     # Find all button containing work opportunity
-    result = soup.find_all('button', class_='d-none')
+    result = soup.find_all('a', class_='s xst')
 
     # Iterate through buttons
     for re in result:
@@ -37,4 +42,3 @@ for i in range(1, 68):
 
 df_temp = pd.DataFrame(data, columns=['公司名稱', '工作機會'])
 df_temp.to_excel('上市櫃公司工作機會.xlsx')
-
